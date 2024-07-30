@@ -2,17 +2,29 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import confusion_matrix
 
 # Load the dataset
-data = pd.read_csv('winequality-red.csv')
+
+df_red = pd.read_csv('winequality-red.csv', sep=';')
+df_white = pd.read_csv('winequality-white.csv', sep=';')
+
+# Combine the red and white wine datasets
+df_red['type'] = 0
+df_white['type'] = 1
+df = pd.concat([df_red, df_white], axis=0)
+
+data=df
 
 # Define features and target
 X = data.drop('quality', axis=1)  # Features
 y = data['quality']               # Target
 
 # Split the data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+    )
 
 # Standardize the features
 scaler = StandardScaler()
