@@ -18,11 +18,14 @@ df = pd.concat([df_red, df_white], axis=0)
 X = df.drop('quality', axis=1)
 y = df['quality']
 
-# Binarize the target variable (quality score >= 7 is considered good wine, otherwise bad wine)
+# Binarize the target variable (quality score >= 7 is 
+# considered good wine, otherwise bad wine)
 y = (y >= 7).astype(int)
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+    )
 
 # Standardize the data
 scaler = StandardScaler()
