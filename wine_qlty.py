@@ -18,7 +18,7 @@ df = pd.concat([df_red, df_white], axis=0)
 X = df.drop('quality', axis=1)
 y = df['quality']
 
-# Binarize the target variable (quality score >= 7 is 
+# Binarize the target variable (quality score >= 7 is
 # considered good wine, otherwise bad wine)
 y = (y >= 7).astype(int)
 
