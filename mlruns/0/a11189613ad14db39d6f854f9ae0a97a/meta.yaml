@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Studies/Master%20Program/Third%20semester/MLOps/Practical/assignment_v2/mlruns/0/a11189613ad14db39d6f854f9ae0a97a/artifacts
+end_time: 1722325145820
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a11189613ad14db39d6f854f9ae0a97a
+run_name: kindly-hawk-126
+run_uuid: a11189613ad14db39d6f854f9ae0a97a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722325145349
+status: 3
+tags: []
+user_id: Sakthi

@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Studies/Master%20Program/Third%20semester/MLOps/Practical/assignment_v2/mlruns/0/f3e82156fdb748a79768e7ad39df1cdc/artifacts
+end_time: 1722324956167
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f3e82156fdb748a79768e7ad39df1cdc
+run_name: polite-squirrel-109
+run_uuid: f3e82156fdb748a79768e7ad39df1cdc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722324951819
+status: 3
+tags: []
+user_id: Sakthi
