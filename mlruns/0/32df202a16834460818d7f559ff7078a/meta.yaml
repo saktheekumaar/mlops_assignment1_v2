@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Studies/Master%20Program/Third%20semester/MLOps/Practical/assignment_v2/mlruns/0/32df202a16834460818d7f559ff7078a/artifacts
+end_time: 1722517660724
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 32df202a16834460818d7f559ff7078a
+run_name: big-grub-521
+run_uuid: 32df202a16834460818d7f559ff7078a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722517655699
+status: 3
+tags: []
+user_id: Purushotham Kilari
