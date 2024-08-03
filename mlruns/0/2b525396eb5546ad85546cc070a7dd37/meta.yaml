@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Studies/Master%20Program/Third%20semester/MLOps/Practical/assignment_v2/mlruns/0/2b525396eb5546ad85546cc070a7dd37/artifacts
+end_time: 1722666734388
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2b525396eb5546ad85546cc070a7dd37
+run_name: big-fawn-449
+run_uuid: 2b525396eb5546ad85546cc070a7dd37
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722666729720
+status: 3
+tags: []
+user_id: Purushotham Kilari

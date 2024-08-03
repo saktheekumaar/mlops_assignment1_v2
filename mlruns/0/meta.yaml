@@ -1,6 +1,7 @@
 artifact_location: file:///D:/Studies/Master%20Program/Third%20semester/MLOps/Practical/assignment_v2/mlruns/0
 creation_time: 1722324949440
 experiment_id: '0'
-last_update_time: 1722324949440
+last_update_time: 1722666172071
 lifecycle_stage: active
-name: Default
+name: WINE-experiment
+tags: {}
