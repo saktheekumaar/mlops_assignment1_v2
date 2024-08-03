@@ -4,6 +4,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.metrics import confusion_matrix
+import joblib
 
 # Load the dataset
 
@@ -51,3 +52,7 @@ print(classification_report(y_test, y_pred))
 # Print confusion matrix
 print("Confusion Matrix:")
 print(confusion_matrix(y_test, y_pred))
+
+
+# Save the trained model and scaler
+joblib.dump((dt_model, scaler), "trained_model.joblib")

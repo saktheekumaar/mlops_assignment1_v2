@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Studies/Master%20Program/Third%20semester/MLOps/Practical/assignment_v2/mlruns/0/139166fdb6834317b9ab964aa4e7a803/artifacts
+end_time: 1722666904730
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 139166fdb6834317b9ab964aa4e7a803
+run_name: receptive-skunk-200
+run_uuid: 139166fdb6834317b9ab964aa4e7a803
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722666901173
+status: 3
+tags: []
+user_id: Purushotham Kilari
