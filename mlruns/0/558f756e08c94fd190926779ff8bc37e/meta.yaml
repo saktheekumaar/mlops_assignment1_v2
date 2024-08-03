@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Studies/Master%20Program/Third%20semester/MLOps/Practical/assignment_v2/mlruns/0/558f756e08c94fd190926779ff8bc37e/artifacts
+end_time: 1722517157670
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 558f756e08c94fd190926779ff8bc37e
+run_name: bright-quail-882
+run_uuid: 558f756e08c94fd190926779ff8bc37e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1722517154803
+status: 3
+tags: []
+user_id: Purushotham Kilari
