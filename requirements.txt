@@ -1,0 +1,11 @@
+dvc
+mlflow
+pandas
+scikit-learn
+tensorflow
+joblib
+seaborn
+matplotlib
+flask
+flask_cors
+optuna
