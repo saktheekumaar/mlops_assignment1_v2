@@ -26,8 +26,8 @@ def predict():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
     
-    
-    
+
+# curl -X POST -H "Content-Type: application/json" -d "{\"features\": [7.4, 0.7, 0, 1.9, 0.076, 11, 34, 0.9978, 3.51, 0.56, 9.4, 1]}" http://54.160.121.180:5000/predict
     
 #     usage:
 #     CMD:    curl -X POST -H "Content-Type: application/json" -d "{\"features\": [7.4, 0.7, 0, 1.9, 0.076, 11, 34, 0.9978, 3.51, 0.56, 9.4, 1]}" http://localhost:5000/predict
