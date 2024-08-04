@@ -35,3 +35,6 @@ if __name__ == '__main__':
 # Output
 
 # {"prediction":0}
+# 
+# 
+# docker run -it -p 5000:5000 9ac991c35151812a719bfbce24f86fd97269f376a8a6dd2dcdfdecef65d2856a
