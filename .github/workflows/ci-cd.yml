@@ -32,37 +32,46 @@ jobs:
         run: |
           python -m unittest discover
 
-      - name: Build Docker image
-        run: |
-          docker build -t wine-quality-detector:latest .
+      # - name: Build Docker image
+      #   run: |
+      #     docker build -t wine-quality-detector:latest .
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v2
+      #   with:
+      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
+      #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      # - name: Push Docker image to Docker Hub
+      #   run: |
+      #     docker tag wine-quality-detector:latest ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+      #     docker push ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@master
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-
-      - name: Push Docker image to Docker Hub
-        run: |
-          docker tag wine-quality-detector:latest ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
-          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
-
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v0.1.9
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
+          host: ${{ secrets.EC2_HOST }} 
+          username: ${{ secrets.EC2_USER }} 
+          key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Stop and remove any existing container
-            docker stop my-container || true
-            docker rm my-container || true
+           whoami
+
+      # - name: Deploy to EC2
+      #   uses: appleboy/ssh-action@v0.1.9
+      #   with:
+      #     host: ${{ secrets.EC2_HOST }}
+      #     username: ${{ secrets.EC2_USER }}
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     script: |
+      #       # Stop and remove any existing container
+      #       docker stop my-container || true
+      #       docker rm my-container || true
             
-            # Pull the latest Docker image from Docker Hub
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+      #       # Pull the latest Docker image from Docker Hub
+      #       docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
             
-            # Run the Docker container
-            docker run -d --name my-container -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+      #       # Run the Docker container
+      #       docker run -d --name my-container -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
 
 # name: CI/CD Pipeline
 
