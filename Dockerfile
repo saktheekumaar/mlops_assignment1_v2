@@ -23,4 +23,4 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 
 # Run the Flask application when the container launches
-CMD ["sh", "-c", "python app.py"]
+CMD ["sh", "-c", "mlflow ui", "python app.py"]
