@@ -1,6 +1,4 @@
 # # .github/workflows/ci-cd.yml
-
-
 name: CI/CD Pipeline
 
 on: [push, pull_request]
@@ -8,6 +6,8 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
 
     steps:
       - name: Checkout code
@@ -22,7 +22,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install numpy pandas scikit-learn
-          # pip install tensorflow
 
       - name: Linting
         run: |
@@ -31,25 +30,39 @@ jobs:
 
       - name: Run Tests
         run: |
-           python -m unittest discover
+          python -m unittest discover
 
-      - name: Deploy Model
+      - name: Build Docker image
         run: |
-          python wine_qlty.py
+          docker build -t my-docker-image:latest .
 
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Copy files to EC2
+      - name: Push Docker image to Docker Hub
         run: |
-          scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no -r ./path/to/files ec2-user@100.25.28.126:/path/on/ec2
+          docker tag wine-quality-detector:latest ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
 
-      - name: Run commands on EC2
-        run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@100.25.28.126 "bash /path/on/ec2/deploy_script.sh"
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Stop and remove any existing container
+            docker stop my-container || true
+            docker rm my-container || true
+            
+            # Pull the latest Docker image from Docker Hub
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+            
+            # Run the Docker container
+            docker run -d --name my-container -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
 
 # name: CI/CD Pipeline
 
