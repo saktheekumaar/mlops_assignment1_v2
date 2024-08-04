@@ -94,3 +94,4 @@ plt.show()
 # Plot hyperparameter relationships
 optuna.visualization.matplotlib.plot_parallel_coordinate(study)
 plt.show()
+# docker tag 088a7d070309:v2  purushothamkilari/wine-quality-detector:latest
