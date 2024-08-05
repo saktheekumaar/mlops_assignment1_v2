@@ -1,14 +1,14 @@
-# .github/workflows/ci-cd.yml
+# # .github/workflows/ci-cd.yml
 name: CI/CD Pipeline
 
 on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
-        FORCE_JAVASCRIPT_ACTIONS_TO_NODE20: true 
-        
+      DOCKER_BUILDKIT: 1
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +22,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install numpy pandas scikit-learn 
-          # pip install tensorflow
 
       - name: Linting
         run: |
@@ -31,8 +30,66 @@ jobs:
 
       - name: Run Tests
         run: |
-           python -m unittest discover
+          python -m unittest discover
 
-      - name: Deploy Model
+      - name: Build Docker image
         run: |
-          python wine_qlty.py
+          echo "Latest Docker file is running ..."
+          docker build -t wine-quality-detector:latest .
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Push Docker image to Docker Hub
+        run: |
+          echo "pushing the Docker file to DockerHUB ..."
+          docker tag wine-quality-detector:latest ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+      - name: Set up SSH key
+        uses: LuisEnMarroquin/setup-ssh-action@v2.0.0
+        with:
+          ORIGIN: ${{ secrets.EC2_HOST }} 
+          SSHKEY: ${{ secrets.EC2_SSH_KEY }}
+          NAME: production
+          PORT: 22
+          USER: ${{ secrets.EC2_USER }} 
+      - name: Deploy Docker Image
+        run: |
+          ssh production << 'EOF'
+            # Ensure Docker is installed
+            if ! command -v docker &> /dev/null
+            then
+                echo "Docker could not be found, installing..."
+                sudo yum update -y
+                sudo amazon-linux-extras install docker -y
+                sudo service docker start
+                sudo usermod -a -G docker ec2-user
+                sudo chkconfig docker on
+            fi
+
+            # Ensure Docker service is running
+            sudo service docker start
+
+            # Ensure the current user is in the docker group
+            if ! groups $USER | grep &>/dev/null '\bdocker\b'; then
+                sudo usermod -aG docker $USER
+                newgrp docker
+            fi
+
+            # Update Docker credentials
+            echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}" | sudo docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+            # Stop and remove any existing container
+            sudo docker stop my-container || true
+            sudo docker rm my-container || true
+            
+            # Pull the latest Docker image from Docker Hub
+            sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+            
+            # Run the Docker container
+            echo "Waiting for the Docker container to start..."
+            sudo docker run -d --name my-container -p 5000:5000 ${{ secrets.DOCKER_HUB_USERNAME }}/wine-quality-detector:latest
+          EOF
