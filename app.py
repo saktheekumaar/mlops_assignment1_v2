@@ -34,7 +34,7 @@ if __name__ == '__main__':
 #     CMD:    curl -X POST -H "Content-Type: application/json" -d "{\"features\": [7.4, 0.7, 0, 1.9, 0.076, 11, 34, 0.9978, 3.51, 0.56, 9.4, 1]}" http://localhost:5000/predict
 
 # Output
-
+#features
 # {"prediction":0}
 # 
 # 

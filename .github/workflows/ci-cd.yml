@@ -23,6 +23,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install numpy pandas scikit-learn 
 
+      - name: Install DVC
+        run: pip install dvc[s3]
+
+      - name: Configure DVC remote
+        run: |
+          dvc remote add -d s3remote s3://myremote-s3-bucket
+          # dvc remote modify s3remote endpointurl https://s3.amazonaws.com # Modify this if you have a custom S3 endpoint
+
+      - name: Set AWS Credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set region ${{ secrets.AWS_REGION }}
+
+      - name: Pull DVC data
+        run: dvc pull 
+
       - name: Linting
         run: |
           pip install flake8
